@@ -7,17 +7,17 @@ export const APP_CONFIG = {
   /**
    * Bot ID
    */
-  botId: '606433868853018624',
+  botId: '111111111111111111',
 
   /**
    * Channel ID for send/update message with status of FiveM server
    */
-  channelId: '1115599254833090592',
+  channelId: '111111111111111111',
 
   /**
    * FiveM server ip. For example: 127.0.0.1:30120
    */
-  serverIp: '46.174.50.159:30120',
+  serverIp: '',
 
   /**
    * Update interval in minutes
@@ -27,5 +27,5 @@ export const APP_CONFIG = {
   /**
    * Connect URL for FiveM server. For example: https://cfx.re/join/huh
    */
-  connectUrl: 'https://cfx.re/join/av8p89',
+  connectUrl: '',
 };
