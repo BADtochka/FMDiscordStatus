@@ -20,5 +20,5 @@ npm run start
 
 **...or** if you use `pm2` you can run it like this
 ```bash
-pm2 start dist/main.js
+pm2 start "npm run start" -n FMDiscordStatus
 ```
