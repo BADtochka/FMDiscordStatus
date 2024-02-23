@@ -1,6 +1,6 @@
 import { APP_CONFIG } from '@config/app';
 import { Injectable, Logger } from '@nestjs/common';
-import { Client, EmbedBuilder, TextBasedChannel } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, TextBasedChannel } from 'discord.js';
 import { GameService } from 'src/game/game.service';
 import { removeNumeric } from 'src/utils/removeNumeric';
 
@@ -68,6 +68,20 @@ export class BotService {
     return embed;
   }
 
+  async generateButtons(): Promise<ActionRowBuilder<ButtonBuilder> | undefined> {
+    if (APP_CONFIG.connectUrl && APP_CONFIG.connectUrl.length > 0) {
+      const connectButton = new ButtonBuilder()
+      .setLabel('Connect')
+      .setStyle(ButtonStyle.Link)
+      .setURL(APP_CONFIG.connectUrl);
+      const actionRow = new ActionRowBuilder<ButtonBuilder>({
+        components: [connectButton]
+      })
+
+      return actionRow
+    }
+  }
+
   async refreshStatusChannel() {
     if (String(APP_CONFIG.channelId).length === 0 || typeof APP_CONFIG.channelId !== 'string') {
       return this.logger.error('Channel ID must be a string and not empty!');
@@ -94,6 +108,7 @@ export class BotService {
     }
 
     const embed = await this.generateEmbed();
-    await firstMessage.edit({ embeds: [embed] });
+    const component = await this.generateButtons()
+    await firstMessage.edit({ embeds: [embed], components: [component] });
   }
 }

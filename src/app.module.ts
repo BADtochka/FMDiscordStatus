@@ -13,7 +13,7 @@ dotenv.config();
 @Module({
   imports: [
     NecordModule.forRoot({
-      token: APP_CONFIG.token,
+      token: process.env.DISCORD_BOT_TOKEN || APP_CONFIG.token,
       intents: [GatewayIntentBits.Guilds],
     }),
     ScheduleModule.forRoot(),
