@@ -9,8 +9,6 @@ export class StatusUpdateService {
 
   @Interval('statusUpdate', APP_CONFIG.interval * 1000 * 60)
   onInterval() {
-    console.log('execute interval update');
-
     this.botService.refreshStatusChannel();
   }
 }
