@@ -68,7 +68,7 @@ export class BotService {
     return embed;
   }
 
-  async generateButtons(): Promise<ActionRowBuilder<ButtonBuilder> | undefined> {
+  async generateButtons(): Promise<ActionRowBuilder<ButtonBuilder>[] | undefined> {
     if (APP_CONFIG.connectUrl && APP_CONFIG.connectUrl.length > 0) {
       const connectButton = new ButtonBuilder()
       .setLabel('Connect')
@@ -78,7 +78,7 @@ export class BotService {
         components: [connectButton]
       })
 
-      return actionRow
+      return [actionRow]
     }
   }
 
@@ -98,8 +98,7 @@ export class BotService {
 
     const messages = await channel.messages.fetch();
 
-    // discord fetch messages from newest to oldest, so we need to get the last (first) message in array
-    const firstMessage = messages.last();
+    const firstMessage = messages.last(); // discord fetch messages from newest to oldest, so we need to get the last (first) message in array
     if (!firstMessage) {
       const embed = await this.generateEmbed();
       return await channel.send({ embeds: [embed] });
@@ -108,7 +107,7 @@ export class BotService {
     }
 
     const embed = await this.generateEmbed();
-    const component = await this.generateButtons()
-    await firstMessage.edit({ embeds: [embed], components: [component] });
+    const components = await this.generateButtons()
+    await firstMessage.edit({ embeds: [embed], components: components });
   }
 }
