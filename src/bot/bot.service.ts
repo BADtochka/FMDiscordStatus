@@ -1,6 +1,14 @@
 import { APP_CONFIG } from '@config/app';
 import { Injectable, Logger } from '@nestjs/common';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Client, EmbedBuilder, TextBasedChannel } from 'discord.js';
+import {
+  ActionRowBuilder,
+  ActivityType,
+  ButtonBuilder,
+  ButtonStyle,
+  Client,
+  EmbedBuilder,
+  TextBasedChannel,
+} from 'discord.js';
 import { GameService } from 'src/game/game.service';
 import { removeNumeric } from 'src/utils/removeNumeric';
 
@@ -71,14 +79,14 @@ export class BotService {
   async generateButtons(): Promise<ActionRowBuilder<ButtonBuilder>[] | undefined> {
     if (APP_CONFIG.connectUrl && APP_CONFIG.connectUrl.length > 0) {
       const connectButton = new ButtonBuilder()
-      .setLabel('Connect')
-      .setStyle(ButtonStyle.Link)
-      .setURL(APP_CONFIG.connectUrl);
+        .setLabel('Connect')
+        .setStyle(ButtonStyle.Link)
+        .setURL(APP_CONFIG.connectUrl);
       const actionRow = new ActionRowBuilder<ButtonBuilder>({
-        components: [connectButton]
-      })
+        components: [connectButton],
+      });
 
-      return [actionRow]
+      return [actionRow];
     }
   }
 
@@ -91,6 +99,13 @@ export class BotService {
     if (channel.isTextBased()) {
       await this.createOrUpdateMessage(channel);
     }
+  }
+
+  async updateRPCStatus() {
+    const { maxPlayers, playersCount } = await this.gameService.getServerData();
+    this.client.user.setPresence({
+      activities: [{ name: 'huh', state: `Players: ${playersCount}/${maxPlayers}`, type: ActivityType.Custom }],
+    });
   }
 
   async createOrUpdateMessage(channel?: TextBasedChannel) {
@@ -107,7 +122,7 @@ export class BotService {
     }
 
     const embed = await this.generateEmbed();
-    const components = await this.generateButtons()
+    const components = await this.generateButtons();
     await firstMessage.edit({ embeds: [embed], components: components });
   }
 }

@@ -10,5 +10,6 @@ export class StatusUpdateService {
   @Interval('statusUpdate', APP_CONFIG.interval * 1000 * 60)
   onInterval() {
     this.botService.refreshStatusChannel();
+    this.botService.updateRPCStatus()
   }
 }

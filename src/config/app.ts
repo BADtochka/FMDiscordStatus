@@ -7,17 +7,17 @@ export const APP_CONFIG = {
   /**
    * Bot ID
    */
-  botId: '606433868853018624',
+  botId: '',
 
   /**
    * Channel ID for send/update message with status of FiveM server
    */
-  channelId: '1115599254833090592',
+  channelId: '',
 
   /**
    * FiveM server ip. For example: 127.0.0.1:30120
    */
-  serverIp: '46.174.50.159:30120',
+  serverIp: '',
 
   /**
    * Update interval in minutes
